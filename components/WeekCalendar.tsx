@@ -104,7 +104,7 @@ function DayColumn({
         setNodeRef(node);
         if (isToday) todayRef.current = node;
       }}
-      className={`flex min-h-[12rem] w-56 shrink-0 snap-start flex-col gap-3 rounded-2xl border p-3 sm:w-64 ${
+      className={`flex h-[32rem] w-56 shrink-0 snap-start flex-col gap-3 rounded-2xl border p-3 sm:w-64 ${
         isOver
           ? "border-clay bg-clay/10"
           : isToday
@@ -112,7 +112,7 @@ function DayColumn({
             : "border-mist bg-canvas-card"
       }`}
     >
-      <div className="px-0.5">
+      <div className="shrink-0 px-0.5">
         <div
           className={`text-xs font-semibold uppercase tracking-wide ${
             isToday ? "text-clay" : "text-mid"
@@ -122,7 +122,7 @@ function DayColumn({
         </div>
         <div className="text-xs text-mid">{formatDayHeading(date)}</div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="scroll-thin flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto pr-1">
         {planned.map((p) => (
           <PlannedCard
             key={p.id}

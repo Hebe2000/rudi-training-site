@@ -130,6 +130,25 @@ export async function addPlannedActivity(
   return plannedFromRow(data as PlannedActivityRow);
 }
 
+export async function addPlannedActivities(
+  items: Omit<PlannedActivity, "id" | "sessionId">[]
+): Promise<PlannedActivity[]> {
+  const { data, error } = await supabase
+    .from("planned_activities")
+    .insert(
+      items.map((planned) => ({
+        activity_id: planned.activityId ?? null,
+        custom_label: planned.customLabel ?? null,
+        day_date: planned.dayDate,
+        position: planned.position,
+      }))
+    )
+    .select();
+
+  if (error) throw error;
+  return (data as PlannedActivityRow[]).map(plannedFromRow);
+}
+
 export async function deletePlannedActivity(id: string): Promise<void> {
   const { error } = await supabase
     .from("planned_activities")

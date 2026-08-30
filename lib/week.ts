@@ -47,3 +47,7 @@ export function formatDayHeading(iso: string): string {
   const d = new Date(iso + "T00:00:00");
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
 }
+
+export function dayOfMonth(iso: string): number {
+  return new Date(iso + "T00:00:00").getDate();
+}

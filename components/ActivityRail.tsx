@@ -2,7 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { useDraggable } from "@dnd-kit/core";
-import { CATEGORIES, activitiesByCategory, Activity } from "@/lib/activities";
+import {
+  CATEGORIES,
+  Activity,
+  filterActivityGroups,
+} from "@/lib/activities";
 
 export const activityDragId = (activityId: string) => `activity:${activityId}`;
 
@@ -76,23 +80,15 @@ export default function ActivityRail({
   const [categoryFilter, setCategoryFilter] = useState<string>("all");
   const [hideRecentlyDone, setHideRecentlyDone] = useState(false);
 
-  const groups = useMemo(() => {
-    const q = query.trim().toLowerCase();
-    return CATEGORIES.filter(
-      (cat) => categoryFilter === "all" || cat.id === categoryFilter
-    )
-      .map((cat) => ({
-        category: cat,
-        activities: activitiesByCategory(cat.id).filter(
-          (a) =>
-            (!q ||
-              a.name.toLowerCase().includes(q) ||
-              a.summary.toLowerCase().includes(q)) &&
-            (!hideRecentlyDone || !recentlyDoneIds.has(a.id))
-        ),
-      }))
-      .filter((g) => g.activities.length > 0);
-  }, [query, categoryFilter, hideRecentlyDone, recentlyDoneIds]);
+  const groups = useMemo(
+    () =>
+      filterActivityGroups({
+        query,
+        categoryId: categoryFilter,
+        hideIds: hideRecentlyDone ? recentlyDoneIds : undefined,
+      }),
+    [query, categoryFilter, hideRecentlyDone, recentlyDoneIds]
+  );
 
   return (
     <div className="flex max-h-[calc(100vh-6rem)] flex-col gap-3 rounded-2xl border border-mist bg-canvas-card/60 p-3 lg:sticky lg:top-6">

@@ -17,8 +17,10 @@ import WeekCalendar from "@/components/WeekCalendar";
 import Modal from "@/components/Modal";
 import ActivityDetailModal from "@/components/ActivityDetailModal";
 import SessionForm from "@/components/SessionForm";
+import MobileActivityDrawer from "@/components/MobileActivityDrawer";
 import { getActivity } from "@/lib/activities";
 import {
+  addPlannedActivities,
   addPlannedActivity,
   deletePlannedActivity,
   insertSession,
@@ -29,6 +31,7 @@ import {
 } from "@/lib/storage";
 import { PlannedActivity, TrainingSession } from "@/lib/types";
 import { currentWeekDates, daysAgoISO } from "@/lib/week";
+import { useIsMobile } from "@/lib/useIsMobile";
 
 const RECENT_WINDOW_DAYS = 6;
 
@@ -49,6 +52,8 @@ export default function Home() {
   const [recentlyDoneIds, setRecentlyDoneIds] = useState<Set<string>>(
     new Set()
   );
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 4 } }),
@@ -107,6 +112,25 @@ export default function Home() {
       setPlanned((prev) => [...prev, created]);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Failed to schedule activity");
+    }
+  }
+
+  async function handleBulkAdd(activityIds: string[], dayDate: string) {
+    setError(null);
+    const startPosition = (plannedByDay[dayDate] ?? []).length;
+    try {
+      const created = await addPlannedActivities(
+        activityIds.map((activityId, i) => ({
+          activityId,
+          dayDate,
+          position: startPosition + i,
+        }))
+      );
+      setPlanned((prev) => [...prev, ...created]);
+    } catch (e) {
+      setError(
+        e instanceof Error ? e.message : "Failed to schedule activities"
+      );
     }
   }
 
@@ -174,8 +198,9 @@ export default function Home() {
                 Rudi's Training Log
               </h1>
               <p className="font-serif text-sm text-ink-muted">
-                Drag an activity onto a day to plan it, tap the check to log
-                it.
+                {isMobile
+                  ? "Tap + to add activities to a day, tap the check to log it."
+                  : "Drag an activity onto a day to plan it, tap the check to log it."}
               </p>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -204,6 +229,15 @@ export default function Home() {
             <p className="text-center font-serif text-sm text-ink-muted">
               Loading…
             </p>
+          ) : isMobile ? (
+            <WeekCalendar
+              weekDates={weekDates}
+              plannedByDay={plannedByDay}
+              onCheck={setActivePlanned}
+              onUncheck={handleUncheck}
+              onRemove={handleRemove}
+              onSelect={setDetailActivityId}
+            />
           ) : (
             <div className="flex flex-col gap-6 lg:flex-row">
               <div className="lg:w-72 lg:shrink-0">
@@ -226,6 +260,25 @@ export default function Home() {
           )}
         </main>
       </div>
+
+      {isMobile && !loading && (
+        <button
+          onClick={() => setDrawerOpen(true)}
+          aria-label="Add activities"
+          className="fixed bottom-6 right-6 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-clay text-2xl text-white shadow-lg hover:bg-clay-strong"
+        >
+          +
+        </button>
+      )}
+
+      {drawerOpen && (
+        <MobileActivityDrawer
+          weekDates={weekDates}
+          recentlyDoneIds={recentlyDoneIds}
+          onClose={() => setDrawerOpen(false)}
+          onBulkAdd={handleBulkAdd}
+        />
+      )}
 
       <DragOverlay>
         {draggingActivity ? <DragPreviewCard activity={draggingActivity} /> : null}

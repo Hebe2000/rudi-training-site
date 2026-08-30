@@ -73,3 +73,36 @@ export function activitiesByCategory(categoryId: string): Activity[] {
     (a, b) => a.number - b.number
   );
 }
+
+export interface ActivityFilterOptions {
+  query: string;
+  categoryId: string;
+  hideIds?: Set<string>;
+}
+
+export interface ActivityGroup {
+  category: Category;
+  activities: Activity[];
+}
+
+export function filterActivityGroups({
+  query,
+  categoryId,
+  hideIds,
+}: ActivityFilterOptions): ActivityGroup[] {
+  const q = query.trim().toLowerCase();
+  return CATEGORIES.filter(
+    (cat) => categoryId === "all" || cat.id === categoryId
+  )
+    .map((cat) => ({
+      category: cat,
+      activities: activitiesByCategory(cat.id).filter(
+        (a) =>
+          (!q ||
+            a.name.toLowerCase().includes(q) ||
+            a.summary.toLowerCase().includes(q)) &&
+          (!hideIds || !hideIds.has(a.id))
+      ),
+    }))
+    .filter((g) => g.activities.length > 0);
+}

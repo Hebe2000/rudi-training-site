@@ -1,0 +1,760 @@
+{
+  "$comment": "Seed data for the Rudi training site. Source: training/week-1-training-guide.md. content_status 'placeholder' means the source notes name the activity but contain no method — nothing has been invented.",
+  "version": 1,
+  "categories": [
+    { "id": "marker-system", "name": "Marker system", "order": 1, "note": "Foundation. Everything else depends on these." },
+    { "id": "handler-habits", "name": "Handler habits", "order": 2, "note": "Not dog training, but they gate everything else." },
+    { "id": "house-impulse-control", "name": "Impulse control in the house", "order": 3, "note": null },
+    { "id": "walks", "name": "Out of the car / on walks", "order": 4, "note": null },
+    { "id": "core-games", "name": "Core training games", "order": 5, "note": null },
+    { "id": "food-games", "name": "Food games", "order": 6, "note": "Build food drive and charge recall." },
+    { "id": "behaviour-management", "name": "Behaviour to manage", "order": 7, "note": null }
+  ],
+  "activities": [
+    {
+      "id": "terminal-marker",
+      "number": 1,
+      "name": "Terminal marker",
+      "category": "marker-system",
+      "cue_example": "yes",
+      "summary": "Break from the behaviour you are offering and come to me for a food reward from hand.",
+      "duration_mins": [2, 5],
+      "equipment": ["food"],
+      "steps": [
+        "Grab around 10 treats.",
+        "Say 'yes' and feed straight after.",
+        "Move as you feed — different directions, different positions. Don't stand there like a statue feeding the same one piece of food.",
+        "Alternatively, charge it inside the Building Value game."
+      ],
+      "tips": ["The word is an example — pick your own and keep it consistent across all training."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "duration-marker",
+      "number": 2,
+      "name": "Duration marker",
+      "category": "marker-system",
+      "cue_example": "good",
+      "summary": "Stay in the behaviour — reward is coming.",
+      "duration_mins": [2, 5],
+      "equipment": ["food"],
+      "steps": [
+        "Ask for a stationary behaviour such as a sit.",
+        "Say 'good' rather than your terminal marker — the terminal marker would make her break the sit and come forward.",
+        "Approach her with the food and feed in position.",
+        "Over time, delay the food after the marker. It doesn't have to arrive straight away."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "food-from-ground",
+      "number": 3,
+      "name": "Food from the ground",
+      "category": "marker-system",
+      "cue_example": "find it",
+      "summary": "The dog can break behaviour and focus off you to grab food from the ground.",
+      "duration_mins": [2, 5],
+      "equipment": ["food"],
+      "steps": [
+        "Say 'find it'.",
+        "Pause 2 seconds.",
+        "Throw a bit of food on the ground."
+      ],
+      "tips": ["The pause is what makes the cue predictive — don't throw and say it at the same time."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "release-cue",
+      "number": 4,
+      "name": "Release cue",
+      "category": "marker-system",
+      "cue_example": "free",
+      "summary": "The dog holds a position until you allow them to move away.",
+      "duration_mins": [2, 5],
+      "equipment": ["food (faded quickly)"],
+      "steps": [
+        "Put her in a position — sit, down, or hanging around you after a recall.",
+        "Say your release word.",
+        "At first, walk forward or throw a treat so she actually moves and learns the word means movement.",
+        "Move away from using food quickly.",
+        "The goal is that she is released and goes off to do her own thing until you call her again."
+      ],
+      "tips": [
+        "Use it after every reward event so she isn't just wandering off once the food arrives.",
+        "Source note: written as 'OK' in the marker list but 'free' in the worked examples — pick one."
+      ],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "toy-from-hand",
+      "number": 5,
+      "name": "Toy from hand",
+      "category": "marker-system",
+      "cue_example": "HAND",
+      "summary": "Toy reward is coming from your hand.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy in pocket"],
+      "steps": [
+        "Recall her.",
+        "As she starts running, say the cue.",
+        "Take the toy out of your pocket and hold it out."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "toy-from-ground",
+      "number": 6,
+      "name": "Toy from the ground",
+      "category": "marker-system",
+      "cue_example": "toy",
+      "summary": "Toy reward is on the floor, go and get it.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy"],
+      "steps": [
+        "Throw a toy on the ground before you use the marker word.",
+        "Then give the cue."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "food-session-cues",
+      "number": 7,
+      "name": "Start and finish cue for food",
+      "category": "marker-system",
+      "cue_example": "ready / END",
+      "summary": "Bookends every food-based training session so she knows when work starts and stops.",
+      "duration_mins": null,
+      "equipment": ["food"],
+      "steps": [
+        "Open every food session with your start cue.",
+        "Train.",
+        "Close with your finish cue.",
+        "Use it at the start and end of all training sessions — dogs naturally pick up on it."
+      ],
+      "tips": [
+        "The finish cue is useful if she blows you off mid-session — end the session, put her away, give her another chance next time.",
+        "Source note: 'END' in the marker list vs 'finish' in the Building Value section — pick one."
+      ],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "play-session-cues",
+      "number": 8,
+      "name": "Start and finish cue for play",
+      "category": "marker-system",
+      "cue_example": "wanna play / game over",
+      "summary": "Bookends play. Helps build toy drive on walks.",
+      "duration_mins": null,
+      "equipment": ["toy"],
+      "steps": [
+        "Give your start of play cue.",
+        "Play.",
+        "Once the finish cue is said, the toy goes away — no more play.",
+        "You can repeat the start cue as much as you like within a session, but the finish cue is final."
+      ],
+      "tips": ["Source note: listed as 'ready'/'END' in the marker list but used as 'wanna play'/'game over' in the Day 1 play section — pick one."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Marker System"
+    },
+    {
+      "id": "hand-feeding",
+      "number": 9,
+      "name": "Hand feeding",
+      "category": "handler-habits",
+      "cue_example": null,
+      "summary": "Use the daily meal as training currency so extra treats don't cause weight gain or upset stomachs.",
+      "duration_mins": null,
+      "equipment": ["kitchen scales", "daily food ration"],
+      "steps": [
+        "Weigh out the day's food in the morning.",
+        "Divide it into 4 portions — 4 chances to train across the day.",
+        "Use portions for home sessions or out and about.",
+        "If you can't train, just give the portion as a meal.",
+        "If you also use treats, work out how much less food to give to compensate."
+      ],
+      "tips": ["Using the meal you have to give anyway builds the habit of training more often, and of remembering to."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Hand Feeding"
+    },
+    {
+      "id": "sleep-management",
+      "number": 10,
+      "name": "Sleep management",
+      "category": "handler-habits",
+      "cue_example": null,
+      "summary": "18 hours of sleep per 24. Lack of sleep destroys her ability to focus.",
+      "duration_mins": null,
+      "equipment": ["crate or settle space"],
+      "steps": [
+        "Track roughly how much she is actually sleeping in 24 hours.",
+        "If she is misbehaving more than usual, re-think the amount of rest she has had before adding more training."
+      ],
+      "tips": [
+        "Signs of being overtired: hyperactivity and zoomies; excessive biting and nipping; reduced focus and ignoring known cues; crankiness, startling, barking at everyday objects, snapping; 'crazy eyes' — a lot of white showing or a glassy stare; clinginess and refusing to settle."
+      ],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Sleep"
+    },
+    {
+      "id": "crate-door-impulse-control",
+      "number": 11,
+      "name": "Crate door impulse control",
+      "category": "house-impulse-control",
+      "cue_example": null,
+      "summary": "She does not come out of the crate until released.",
+      "duration_mins": [2, 5],
+      "equipment": ["crate", "lead", "collar", "food (optional)"],
+      "steps": [
+        "Start to open the crate door.",
+        "If she pushes out, close the door. Repeat until the door is fully open and she can sit or lie there.",
+        "Clip her lead to her collar.",
+        "Use her release cue.",
+        "Once she is out of the crate, ask for a sit, then release cue again.",
+        "If she cannot sit, she goes back in the crate."
+      ],
+      "tips": ["Already strong — took a lot of work to get there. Maintain rather than rebuild."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "In-the-house Training"
+    },
+    {
+      "id": "house-doors-impulse-control",
+      "number": 12,
+      "name": "Front and back door impulse control",
+      "category": "house-impulse-control",
+      "cue_example": null,
+      "summary": "Same rules as the crate, at every door in the house.",
+      "duration_mins": [2, 5],
+      "equipment": ["food (optional)"],
+      "steps": [
+        "Ask for a sit.",
+        "Open the door slowly until she can sit there without breaking.",
+        "Release on cue.",
+        "Reward the sit while the door opens to help her understand."
+      ],
+      "tips": ["If you have no food, being let out is a reward in itself.", "Already strong — took a lot of work to get there."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "In-the-house Training"
+    },
+    {
+      "id": "car-exit",
+      "number": 13,
+      "name": "Car exit",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "She cannot run out of the car. Door opens slowly, she holds position.",
+      "duration_mins": [2, 5],
+      "equipment": ["lead"],
+      "steps": [
+        "Open the door slowly and ask for a sit or a down.",
+        "If she is in the boot, shut it until she can stay there with the door open.",
+        "If she is on the back seat, shut the door until she can relax.",
+        "Once she is out, ask her to sit.",
+        "If she can't sit, she goes back in the car. If she breaks the sit, ask again."
+      ],
+      "tips": ["No food needed here — the point is getting used to coming out and doing nothing."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "settling-outside-car",
+      "number": 14,
+      "name": "Settling outside the car",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Sit and do nothing — not scanning for things to react to. Build duration across the week.",
+      "duration_mins": [2, 10],
+      "equipment": ["lead"],
+      "steps": [
+        "After the car exit, put her in a sit.",
+        "Wait until she is genuinely relaxed, not just holding position while scanning.",
+        "Use the release cue and carry on with the session.",
+        "Build the time up over the week."
+      ],
+      "tips": ["Quiet supermarket car parks (Lidl, Aldi) are the target environment for week 1."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "lead-pressure",
+      "number": 15,
+      "name": "Lead pressure",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Named as Day 2 and Day 4 work, and several other walk activities depend on it.",
+      "duration_mins": null,
+      "equipment": ["flat collar", "long line or lead"],
+      "steps": [],
+      "tips": [],
+      "has_video": false,
+      "content_status": "placeholder",
+      "placeholder_note": "No method written in the source notes. The Day 4 heading is followed by a duplicate of the Day 1 food games section. Needs the trainer's own protocol before this goes live.",
+      "source_section": "Day 2 / Day 4"
+    },
+    {
+      "id": "heel-position",
+      "number": 16,
+      "name": "Heel position",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Named as car park and street work.",
+      "duration_mins": null,
+      "equipment": ["lead"],
+      "steps": [],
+      "tips": [],
+      "has_video": false,
+      "content_status": "placeholder",
+      "placeholder_note": "Referenced as walk work with no protocol written. Needs the trainer's own method.",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "loose-lead-walking",
+      "number": 17,
+      "name": "Loose lead walking",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Named as street work — walking up and down the street.",
+      "duration_mins": null,
+      "equipment": ["lead"],
+      "steps": [],
+      "tips": [],
+      "has_video": false,
+      "content_status": "placeholder",
+      "placeholder_note": "Referenced as walk work with no protocol written. Needs the trainer's own method.",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "auto-sit-on-stop",
+      "number": 18,
+      "name": "Auto-sit when you stop",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "She sits automatically when you stop walking.",
+      "duration_mins": null,
+      "equipment": ["lead"],
+      "steps": [],
+      "tips": [],
+      "has_video": false,
+      "content_status": "placeholder",
+      "placeholder_note": "Referenced as walk work with no protocol written. Needs the trainer's own method.",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "driveway-street-calmness",
+      "number": 19,
+      "name": "Driveway and street calmness",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Holding a settled sit at the edge of the pavement before any walking happens.",
+      "duration_mins": [2, 5],
+      "equipment": ["lead"],
+      "steps": [
+        "Come up the driveway.",
+        "Ask for a sit just before the pavement.",
+        "Stay there for a few minutes.",
+        "Then walk up and down the street working on lead pressure, heel position, loose lead walking and sitting when you stop."
+      ],
+      "tips": ["Week 1 rule: no long street walks and no local parks. Short street work only."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "driveway-arousal-regulation",
+      "number": 20,
+      "name": "Arousal regulation in the driveway",
+      "category": "walks",
+      "cue_example": null,
+      "summary": "Play her up, then bring her back down, in a low-distraction spot.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy", "food", "lead"],
+      "steps": [
+        "Play with her in the driveway.",
+        "Work on bringing the arousal back down afterwards — large circles on lead, mark and reward check-ins.",
+        "The goal is that she regulates herself faster each time."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Out on Walks"
+    },
+    {
+      "id": "building-value",
+      "number": 21,
+      "name": "Building Value",
+      "category": "core-games",
+      "cue_example": "ready / finish",
+      "summary": "Marker charging with movement. Shows her you are fun and have something she wants, and turns her into an active participant rather than a transactional one.",
+      "duration_mins": [2, 5],
+      "equipment": ["her meal"],
+      "steps": [
+        "Open with your session start cue.",
+        "Say your terminal marker, then move and feed.",
+        "Feed in different ways and different directions — movement is what motivates her. Not the same one piece of food, not standing still.",
+        "Run 10–15 bits of food.",
+        "Close with your finish cue.",
+        "Feed the rest of the meal in a bowl."
+      ],
+      "tips": [
+        "First session in the garden.",
+        "Do this in a variety of places. Don't move on until she is genuinely with you and enjoying the time together.",
+        "Eventually the roles switch and she becomes the one pushing you for the session."
+      ],
+      "has_video": true,
+      "reference_url": "https://emma-louise-renton.mykajabi.com/products/raven-k9-dog-training-sessions/categories/2155411783",
+      "content_status": "complete",
+      "source_section": "Day 1"
+    },
+    {
+      "id": "building-value-get-it",
+      "number": 22,
+      "name": "Building Value + 'get it'",
+      "category": "core-games",
+      "cue_example": "ready / get it",
+      "summary": "Teaches her that the way to get access to something she wants is to pay attention to you. Underpins recall away from dogs.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy or bowl of food", "lead"],
+      "steps": [
+        "Place a toy or a bit of food in a bowl in the middle.",
+        "Have her on lead.",
+        "Cue 'ready' and start walking around the toy or food in a large circle.",
+        "Mark and reward with food from you.",
+        "When she is paying attention to you rather than pulling towards the bowl, say 'get it' and let her have it."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 4"
+    },
+    {
+      "id": "play",
+      "number": 23,
+      "name": "Play",
+      "category": "core-games",
+      "cue_example": "wanna play / game over",
+      "summary": "Tug with wins, plus arousal regulation afterwards.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy", "lead", "some of her meal"],
+      "steps": [
+        "Give your start of play cue.",
+        "Show the toy, tug, and let her win often.",
+        "Once she wins, grab her lead and run in big circles so she can show off what she won.",
+        "After around 10 seconds of play, grab the lead and walk in circles, marking and rewarding check-ins with you.",
+        "If she is too aroused to take food, keep walking and wait for her to cool off.",
+        "Restart the game.",
+        "If she loses the toy, don't let her grab you — you pick it up, ask for a sit, and restart."
+      ],
+      "tips": [
+        "Try it in front of the house first; if she struggles, move to the garden.",
+        "Keep her on lead during play so when the toy goes away she isn't close enough to grab you if she gets annoyed.",
+        "Time the play — don't go long in the early stages, her arousal climbs.",
+        "Always walk large circles to bring arousal down before finishing.",
+        "Watch for tiredness."
+      ],
+      "has_video": true,
+      "content_status": "complete",
+      "source_section": "Day 1"
+    },
+    {
+      "id": "recall",
+      "number": 24,
+      "name": "Recall",
+      "category": "core-games",
+      "cue_example": "Zola, here",
+      "summary": "Long line recall using lead pressure and a reward event on the way back.",
+      "duration_mins": [2, 5],
+      "equipment": ["flat collar", "long line", "food"],
+      "steps": [
+        "Flat collar and long line, out on your walk.",
+        "When she hits the end of the lead, put pressure on, walk backwards and call her.",
+        "The minute she turns, make the lead slack.",
+        "When she gets close, mark 'yes' and feed a few times while walking backwards.",
+        "Tap her shoulder and release her so she knows she can move away.",
+        "Repeat later when she is distracted by something."
+      ],
+      "tips": [],
+      "has_video": true,
+      "content_status": "complete",
+      "source_section": "Day 2"
+    },
+    {
+      "id": "reflex-to-name",
+      "number": 25,
+      "name": "Reflex to Name",
+      "category": "core-games",
+      "cue_example": "her name",
+      "summary": "She swings her head to you whenever she hears her name.",
+      "duration_mins": [2, 5],
+      "equipment": ["her meal — about 10 pieces"],
+      "steps": [
+        "Take about 10 pieces of her meal.",
+        "Say her name.",
+        "Feed after.",
+        "Repeat."
+      ],
+      "tips": ["From Day 5, mix this with recall on a walk so you can pull her attention off things when needed."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 2"
+    },
+    {
+      "id": "ccc-game",
+      "number": 26,
+      "name": "CCC game (Crazy – Contained – Crazy)",
+      "category": "core-games",
+      "cue_example": null,
+      "summary": "Teaches her to listen when she is excited, not just when she is calm.",
+      "duration_mins": [2, 5],
+      "equipment": ["toy"],
+      "steps": [
+        "Play for 5 seconds.",
+        "Stop and ask for a sit, down, or bed — any stationary behaviour.",
+        "Once she performs it, start playing again.",
+        "Repeat 5–6 times."
+      ],
+      "tips": ["A lot of training gets done when dogs are calm, but the reality is dogs get excited. This bridges the gap."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 2"
+    },
+    {
+      "id": "settle-training",
+      "number": 27,
+      "name": "Settle training (back tie)",
+      "category": "core-games",
+      "cue_example": null,
+      "summary": "Back tie work — important for managing her emotions and learning to self-settle.",
+      "duration_mins": null,
+      "equipment": ["back tie setup"],
+      "steps": [],
+      "tips": ["Full method is in the external guide."],
+      "has_video": false,
+      "reference_url": "https://docs.google.com/document/d/1REyQDWdHUhuIa6p_WXitTucP00dn38Khnz3SXlYPk70/edit?usp=sharing",
+      "content_status": "external",
+      "placeholder_note": "Method lives in a linked Google Doc rather than in these notes. Consider pulling the content in so the site is self-contained.",
+      "source_section": "Day 4"
+    },
+    {
+      "id": "the-tease",
+      "number": 28,
+      "name": "Game 1: The Tease",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Creates initial interest in food in the hand. The starting point for all the chase games.",
+      "duration_mins": [2, 5],
+      "equipment": ["food she values"],
+      "steps": [
+        "Stand with a treat in your hand facing her — or side-on if she is sensitive.",
+        "Position your hand so she can smell it. Flat hand, thumb just covering the food.",
+        "The minute she sniffs it, snatch it away.",
+        "Move away from her and pretend you're hiding something very special behind your back or across your chest.",
+        "If she follows and keeps showing interest, present the food and snatch it away again.",
+        "When she shows more interest and becomes energised, snatch it away one more time, then let her have it."
+      ],
+      "tips": ["If she finds it too intense or gives up, present the food and withdraw it in a mouse-like or zig-zag movement while moving backwards. Once she chases your hand, let her win."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 1 — Chase games"
+    },
+    {
+      "id": "near-misses",
+      "number": 29,
+      "name": "Game 2: Near Misses",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Builds motivation by making her work a little harder — she almost gets it, then has to chase again.",
+      "duration_mins": [2, 5],
+      "equipment": ["food", "harness or collar"],
+      "steps": [
+        "Restrain her by harness or collar. Present the food to her nose, then move it as far away as possible.",
+        "When she pulls to get it, release her and let her have the food.",
+        "Hold her again, show the food, release when she pulls — but just before she reaches your hand, move it 180 degrees in the opposite direction. She should turn and chase faster. Let her win.",
+        "Build to two misses before she gets the food.",
+        "Then try three."
+      ],
+      "tips": [
+        "Two or three misses at most. She should get faster and more energised, not slower.",
+        "If she is slowing down or losing energy, you've added misses too quickly and are rewarding her for slowing down.",
+        "The miss has to happen just before she reaches the food — too late and you have no time to move, too soon and she slows down to follow it and find the short cut.",
+        "Triangular miss: imagine you're stood in the middle of a triangle and step corner to corner.",
+        "With a small dog, start on your knees so you aren't leaning over her and putting on too much pressure."
+      ],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 1 — Chase games"
+    },
+    {
+      "id": "sliding-food-bowl",
+      "number": 30,
+      "name": "Game 3: Sliding food bowl",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Restraint plus a moving food target.",
+      "duration_mins": [2, 5],
+      "equipment": ["bowl of food", "harness or collar"],
+      "steps": [
+        "Hold her on her harness or collar. Present the bowl of food.",
+        "Once she is really interested, place it in front of her and push it a little.",
+        "As soon as she pulls on her collar, let her win."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 1 — Chase games"
+    },
+    {
+      "id": "chase-the-treat",
+      "number": 31,
+      "name": "Game 4: Chase the treat",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Throw, recall, throw again — builds speed and confidence chasing food.",
+      "duration_mins": [2, 5],
+      "equipment": ["food"],
+      "steps": [
+        "Engage her with the tease game, adding a miss or two.",
+        "Throw the treat in the direction she is running, then run in the opposite direction.",
+        "Call her as soon as she has eaten it.",
+        "Just before she reaches you, throw the second treat in the direction she is running.",
+        "Repeat — she'll run faster and chase with more confidence each time."
+      ],
+      "tips": ["Always throw in the direction she is already running. Throwing elsewhere surprises her, she may not see where it went, and it slows her down."],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 1 — Chase games"
+    },
+    {
+      "id": "chase-me",
+      "number": 32,
+      "name": "Game 5: Chase me",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Builds value in food and charges your recall at the same time.",
+      "duration_mins": [2, 5],
+      "equipment": ["food", "harness or collar", "a helper"],
+      "steps": [
+        "Ask a helper to restrain her on her collar or harness.",
+        "Tease her with food and run away, calling her like your life depends on it.",
+        "Once she is really pulling forward, the helper lets go.",
+        "When she catches up, reward from hand or throw the food in the direction she is running."
+      ],
+      "tips": [],
+      "has_video": false,
+      "requires_helper": true,
+      "content_status": "complete",
+      "source_section": "Day 1 — Chase games"
+    },
+    {
+      "id": "catch-it-or-lose-it",
+      "number": 33,
+      "name": "Game 1: Catch it or lose it",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Teaches her to catch a treat when you throw it.",
+      "duration_mins": [2, 5],
+      "equipment": ["food", "lead"],
+      "steps": [
+        "Have her in front of you on lead. Show her the food in your hand.",
+        "Throw the food towards her mouth — if she catches it, it's a win.",
+        "If she drops it, use the lead to stop her getting it.",
+        "If she fails more than twice, make it easier."
+      ],
+      "tips": [],
+      "has_video": false,
+      "content_status": "complete",
+      "source_section": "Day 1 — Competitive games"
+    },
+    {
+      "id": "race-the-dog",
+      "number": 34,
+      "name": "Game 2: Race the dog",
+      "category": "food-games",
+      "cue_example": null,
+      "summary": "Competing for the food makes her faster and more committed.",
+      "duration_mins": [2, 5],
+      "equipment": ["food", "harness or collar", "a helper"],
+      "steps": [
+        "Helper restrains her. Tease her with a treat, then throw it as far as you can — but still within range so she can see it.",
+        "As soon as it lands, the helper releases her and you race.",
+        "First go: let her win, but only just, so she knows it's possible.",
+        "Once she has the treat and is running ahead, stop and run back the way you came — you want her to bounce back to you.",
+        "Second go: helper holds longer so you just win the food. This makes her faster next time.",
+        "Third go: let her win."
+      ],
+      "tips": [
+        "The helper can step forward a few paces rather than standing still, so she pulls into the harness and feels more motivated working against restraint.",
+        "Don't restrain too long — she may turn back or try to get out of the restraint, which is counterproductive.",
+        "Some dogs find being chased stressful and will slow down or disengage. Watch for it."
+      ],
+      "has_video": false,
+      "requires_helper": true,
+      "content_status": "complete",
+      "source_section": "Day 1 — Competitive games"
+    },
+    {
+      "id": "jumping-on-dogs-people",
+      "number": 35,
+      "name": "Jumping on dogs and people",
+      "category": "behaviour-management",
+      "cue_example": null,
+      "summary": "Management first — prevent it happening while new habits are built.",
+      "duration_mins": null,
+      "equipment": [],
+      "steps": [],
+      "tips": [],
+      "has_video": false,
+      "content_status": "placeholder",
+      "placeholder_note": "The source notes state the principle — manage it first, build new habits around people and dogs — but contain no protocol. Needs the trainer's own method.",
+      "source_section": "Jumping on Dogs/People"
+    }
+  ],
+  "food_guidance": {
+    "applies_to": ["food-games"],
+    "text": "You want the food to be big enough for her to see it, because these games use prey drive to build motivation around food. Nothing sticky, small or too light. The type doesn't matter much for now. Meat cubes, chicken or pork lightly cooked and dried work well — natural, healthy, and easier for a dog to see against dark grass. Factor in what she actually likes."
+  },
+  "week_1_focus": {
+    "priorities": ["marker-system", "recall", "engagement outside"],
+    "rules": [
+      "No typical walks for the first week — the focus is training.",
+      "Drive to quiet places such as supermarket car parks.",
+      "No long street walks or local parks.",
+      "Meeting existing dog friends is fine.",
+      "Move training outside onto walks as quickly as you can."
+    ],
+    "suggested_week": {
+      "day_1": ["building-value", "play", "the-tease", "near-misses", "sliding-food-bowl", "chase-the-treat", "chase-me", "catch-it-or-lose-it", "race-the-dog"],
+      "day_2": ["recall", "reflex-to-name", "ccc-game"],
+      "day_3": [],
+      "day_3_note": "No training. Rest so her brain can process. Quiet spot for sniffing, then lots of rest and sleep.",
+      "day_4": ["building-value-get-it", "settle-training", "lead-pressure"],
+      "day_5": ["building-value", "recall", "reflex-to-name", "play"],
+      "day_6": [],
+      "day_6_note": "No training. Rest day.",
+      "day_7": [],
+      "day_7_note": "Pick 3 things from the list that need more work."
+    }
+  }
+}

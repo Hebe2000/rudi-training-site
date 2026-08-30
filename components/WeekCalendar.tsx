@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { getActivity } from "@/lib/activities";
 import { PlannedActivity } from "@/lib/types";
@@ -87,6 +88,7 @@ function DayColumn({
   onUncheck,
   onRemove,
   onSelect,
+  todayRef,
 }: {
   date: string;
   label: string;
@@ -95,13 +97,17 @@ function DayColumn({
   onUncheck: (p: PlannedActivity) => void;
   onRemove: (p: PlannedActivity) => void;
   onSelect: (activityId: string) => void;
+  todayRef: React.RefObject<HTMLDivElement | null>;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: dayDropId(date) });
   const isToday = date === todayISO();
 
   return (
     <div
-      ref={setNodeRef}
+      ref={(node) => {
+        setNodeRef(node);
+        if (isToday) todayRef.current = node;
+      }}
       className={`flex min-h-[12rem] w-56 shrink-0 snap-start flex-col gap-3 rounded-2xl border p-3 sm:w-64 ${
         isOver
           ? "border-clay bg-clay/10"
@@ -151,8 +157,29 @@ export default function WeekCalendar({
   onRemove: (p: PlannedActivity) => void;
   onSelect: (activityId: string) => void;
 }) {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const todayRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    const today = todayRef.current;
+    if (!container || !today) return;
+    // Native scrollIntoView clamps to the max scroll position, which can't
+    // left-align a column near the end of the row (not enough trailing
+    // content to fill the rest of the viewport) — the trailing spacer
+    // below exists so that clamp never kicks in.
+    const offset =
+      today.getBoundingClientRect().left -
+      container.getBoundingClientRect().left +
+      container.scrollLeft;
+    container.scrollLeft = offset;
+  }, []);
+
   return (
-    <div className="scroll-thin flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+    <div
+      ref={containerRef}
+      className="scroll-thin flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
+    >
       {weekDates.map((date, i) => (
         <DayColumn
           key={date}
@@ -163,8 +190,10 @@ export default function WeekCalendar({
           onUncheck={onUncheck}
           onRemove={onRemove}
           onSelect={onSelect}
+          todayRef={todayRef}
         />
       ))}
+      <div aria-hidden="true" className="w-screen shrink-0" />
     </div>
   );
 }

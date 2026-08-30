@@ -12,22 +12,12 @@ const fieldClass =
 
 export default function SessionForm({
   onAdd,
-  initialActivityId,
-  initialCustomLabel,
-  initialDate,
-  submitLabel = "Add session",
 }: {
   onAdd: (session: Omit<TrainingSession, "id">) => Promise<void>;
-  initialActivityId?: string;
-  initialCustomLabel?: string;
-  initialDate?: string;
-  submitLabel?: string;
 }) {
-  const [activityId, setActivityId] = useState<string>(
-    initialActivityId ?? OTHER
-  );
-  const [customLabel, setCustomLabel] = useState(initialCustomLabel ?? "");
-  const [date, setDate] = useState(initialDate ?? todayISO());
+  const [activityId, setActivityId] = useState<string>(OTHER);
+  const [customLabel, setCustomLabel] = useState("");
+  const [date, setDate] = useState(todayISO());
   const [durationMinutes, setDurationMinutes] = useState(10);
   const [rating, setRating] = useState<1 | 2 | 3 | 4 | 5>(3);
   const [notes, setNotes] = useState("");
@@ -160,7 +150,7 @@ export default function SessionForm({
         disabled={submitting}
         className="mt-1 rounded-full bg-clay px-4 py-2 text-sm font-medium text-white hover:bg-clay-strong disabled:opacity-50"
       >
-        {submitting ? "Adding…" : submitLabel}
+        {submitting ? "Adding…" : "Add session"}
       </button>
     </form>
   );

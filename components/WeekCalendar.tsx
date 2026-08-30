@@ -10,14 +10,12 @@ export const dayDropId = (date: string) => `day:${date}`;
 
 function PlannedCard({
   planned,
-  onCheck,
-  onUncheck,
+  onToggleDone,
   onRemove,
   onSelect,
 }: {
   planned: PlannedActivity;
-  onCheck: () => void;
-  onUncheck: () => void;
+  onToggleDone: () => void;
   onRemove: () => void;
   onSelect: (activityId: string) => void;
 }) {
@@ -25,7 +23,7 @@ function PlannedCard({
     ? getActivity(planned.activityId)
     : undefined;
   const label = activity?.name ?? planned.customLabel ?? "Activity";
-  const done = Boolean(planned.sessionId);
+  const done = Boolean(planned.completedAt);
 
   return (
     <div
@@ -34,7 +32,7 @@ function PlannedCard({
       }`}
     >
       <button
-        onClick={done ? onUncheck : onCheck}
+        onClick={onToggleDone}
         aria-label={done ? "Mark not done" : "Mark done"}
         title={done ? "Untick" : "Mark done"}
         className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full border text-[10px] ${
@@ -84,8 +82,7 @@ function DayColumn({
   date,
   label,
   planned,
-  onCheck,
-  onUncheck,
+  onToggleDone,
   onRemove,
   onSelect,
   todayRef,
@@ -93,8 +90,7 @@ function DayColumn({
   date: string;
   label: string;
   planned: PlannedActivity[];
-  onCheck: (p: PlannedActivity) => void;
-  onUncheck: (p: PlannedActivity) => void;
+  onToggleDone: (p: PlannedActivity) => void;
   onRemove: (p: PlannedActivity) => void;
   onSelect: (activityId: string) => void;
   todayRef: React.RefObject<HTMLDivElement | null>;
@@ -131,8 +127,7 @@ function DayColumn({
           <PlannedCard
             key={p.id}
             planned={p}
-            onCheck={() => onCheck(p)}
-            onUncheck={() => onUncheck(p)}
+            onToggleDone={() => onToggleDone(p)}
             onRemove={() => onRemove(p)}
             onSelect={onSelect}
           />
@@ -145,15 +140,13 @@ function DayColumn({
 export default function WeekCalendar({
   weekDates,
   plannedByDay,
-  onCheck,
-  onUncheck,
+  onToggleDone,
   onRemove,
   onSelect,
 }: {
   weekDates: string[];
   plannedByDay: Record<string, PlannedActivity[]>;
-  onCheck: (p: PlannedActivity) => void;
-  onUncheck: (p: PlannedActivity) => void;
+  onToggleDone: (p: PlannedActivity) => void;
   onRemove: (p: PlannedActivity) => void;
   onSelect: (activityId: string) => void;
 }) {
@@ -186,8 +179,7 @@ export default function WeekCalendar({
           date={date}
           label={WEEKDAY_LABELS[i]}
           planned={plannedByDay[date] ?? []}
-          onCheck={onCheck}
-          onUncheck={onUncheck}
+          onToggleDone={onToggleDone}
           onRemove={onRemove}
           onSelect={onSelect}
           todayRef={todayRef}

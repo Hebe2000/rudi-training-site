@@ -14,22 +14,19 @@ import {
 } from "@dnd-kit/core";
 import ActivityRail, { DragPreviewCard } from "@/components/ActivityRail";
 import WeekCalendar from "@/components/WeekCalendar";
-import Modal from "@/components/Modal";
 import ActivityDetailModal from "@/components/ActivityDetailModal";
-import SessionForm from "@/components/SessionForm";
 import MobileActivityDrawer from "@/components/MobileActivityDrawer";
 import { getActivity } from "@/lib/activities";
 import {
   addPlannedActivities,
   addPlannedActivity,
   deletePlannedActivity,
-  insertSession,
-  linkPlannedActivitySession,
   loadPlannedActivities,
   loadRecentlyDoneActivityIds,
-  unlinkPlannedActivitySession,
+  markPlannedActivityDone,
+  markPlannedActivityNotDone,
 } from "@/lib/storage";
-import { PlannedActivity, TrainingSession } from "@/lib/types";
+import { PlannedActivity } from "@/lib/types";
 import { currentWeekDates, daysAgoISO } from "@/lib/week";
 import { useIsMobile } from "@/lib/useIsMobile";
 
@@ -41,9 +38,6 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [draggingActivityId, setDraggingActivityId] = useState<string | null>(
-    null
-  );
-  const [activePlanned, setActivePlanned] = useState<PlannedActivity | null>(
     null
   );
   const [detailActivityId, setDetailActivityId] = useState<string | null>(
@@ -134,17 +128,43 @@ export default function Home() {
     }
   }
 
-  async function handleUncheck(p: PlannedActivity) {
+  async function handleToggleDone(p: PlannedActivity) {
     setError(null);
+    const wasDone = Boolean(p.completedAt);
     const previous = planned;
+
+    if (wasDone) {
+      setPlanned((prev) =>
+        prev.map((x) => (x.id === p.id ? { ...x, completedAt: undefined } : x))
+      );
+      if (p.activityId) {
+        setRecentlyDoneIds((prev) => {
+          const next = new Set(prev);
+          next.delete(p.activityId!);
+          return next;
+        });
+      }
+      try {
+        await markPlannedActivityNotDone(p.id);
+      } catch (e) {
+        setPlanned(previous);
+        setError(e instanceof Error ? e.message : "Failed to untick activity");
+      }
+      return;
+    }
+
+    const completedAt = new Date().toISOString();
     setPlanned((prev) =>
-      prev.map((x) => (x.id === p.id ? { ...x, sessionId: undefined } : x))
+      prev.map((x) => (x.id === p.id ? { ...x, completedAt } : x))
     );
+    if (p.activityId) {
+      setRecentlyDoneIds((prev) => new Set(prev).add(p.activityId!));
+    }
     try {
-      await unlinkPlannedActivitySession(p.id);
+      await markPlannedActivityDone(p.id);
     } catch (e) {
       setPlanned(previous);
-      setError(e instanceof Error ? e.message : "Failed to untick activity");
+      setError(e instanceof Error ? e.message : "Failed to mark done");
     }
   }
 
@@ -157,26 +177,6 @@ export default function Home() {
     } catch (e) {
       setPlanned(previous);
       setError(e instanceof Error ? e.message : "Failed to remove activity");
-    }
-  }
-
-  async function handleLogSubmit(session: Omit<TrainingSession, "id">) {
-    if (!activePlanned) return;
-    setError(null);
-    try {
-      const created = await insertSession(session);
-      await linkPlannedActivitySession(activePlanned.id, created.id);
-      setPlanned((prev) =>
-        prev.map((p) =>
-          p.id === activePlanned.id ? { ...p, sessionId: created.id } : p
-        )
-      );
-      if (created.activityId) {
-        setRecentlyDoneIds((prev) => new Set(prev).add(created.activityId!));
-      }
-      setActivePlanned(null);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to log session");
     }
   }
 
@@ -199,8 +199,8 @@ export default function Home() {
               </h1>
               <p className="font-serif text-sm text-ink-muted">
                 {isMobile
-                  ? "Tap + to add activities to a day, tap the check to log it."
-                  : "Drag an activity onto a day to plan it, tap the check to log it."}
+                  ? "Tap + to add activities to a day, tap the check when it's done."
+                  : "Drag an activity onto a day to plan it, tap the check when it's done."}
               </p>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -233,8 +233,7 @@ export default function Home() {
             <WeekCalendar
               weekDates={weekDates}
               plannedByDay={plannedByDay}
-              onCheck={setActivePlanned}
-              onUncheck={handleUncheck}
+              onToggleDone={handleToggleDone}
               onRemove={handleRemove}
               onSelect={setDetailActivityId}
             />
@@ -250,8 +249,7 @@ export default function Home() {
                 <WeekCalendar
                   weekDates={weekDates}
                   plannedByDay={plannedByDay}
-                  onCheck={setActivePlanned}
-                  onUncheck={handleUncheck}
+                  onToggleDone={handleToggleDone}
                   onRemove={handleRemove}
                   onSelect={setDetailActivityId}
                 />
@@ -283,18 +281,6 @@ export default function Home() {
       <DragOverlay>
         {draggingActivity ? <DragPreviewCard activity={draggingActivity} /> : null}
       </DragOverlay>
-
-      {activePlanned && (
-        <Modal onClose={() => setActivePlanned(null)}>
-          <SessionForm
-            onAdd={handleLogSubmit}
-            initialActivityId={activePlanned.activityId}
-            initialCustomLabel={activePlanned.customLabel}
-            initialDate={activePlanned.dayDate}
-            submitLabel="Log session"
-          />
-        </Modal>
-      )}
 
       {detailActivityId && (
         <ActivityDetailModal

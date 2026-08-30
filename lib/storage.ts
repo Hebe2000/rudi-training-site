@@ -36,16 +36,27 @@ export async function loadSessions(): Promise<TrainingSession[]> {
 export async function loadRecentlyDoneActivityIds(
   sinceDate: string
 ): Promise<string[]> {
-  const { data, error } = await supabase
-    .from("training_sessions")
-    .select("activity_id")
-    .gte("session_date", sinceDate)
-    .not("activity_id", "is", null);
+  const [sessions, planned] = await Promise.all([
+    supabase
+      .from("training_sessions")
+      .select("activity_id")
+      .gte("session_date", sinceDate)
+      .not("activity_id", "is", null),
+    supabase
+      .from("planned_activities")
+      .select("activity_id")
+      .gte("day_date", sinceDate)
+      .not("activity_id", "is", null)
+      .not("completed_at", "is", null),
+  ]);
 
-  if (error) throw error;
-  const ids = (data as { activity_id: string | null }[]).map(
-    (r) => r.activity_id as string
-  );
+  if (sessions.error) throw sessions.error;
+  if (planned.error) throw planned.error;
+
+  const ids = [
+    ...(sessions.data as { activity_id: string | null }[]),
+    ...(planned.data as { activity_id: string | null }[]),
+  ].map((r) => r.activity_id as string);
   return Array.from(new Set(ids));
 }
 
@@ -84,7 +95,7 @@ interface PlannedActivityRow {
   custom_label: string | null;
   day_date: string;
   position: number;
-  session_id: string | null;
+  completed_at: string | null;
 }
 
 function plannedFromRow(row: PlannedActivityRow): PlannedActivity {
@@ -94,7 +105,7 @@ function plannedFromRow(row: PlannedActivityRow): PlannedActivity {
     customLabel: row.custom_label ?? undefined,
     dayDate: row.day_date,
     position: row.position,
-    sessionId: row.session_id ?? undefined,
+    completedAt: row.completed_at ?? undefined,
   };
 }
 
@@ -113,7 +124,7 @@ export async function loadPlannedActivities(
 }
 
 export async function addPlannedActivity(
-  planned: Omit<PlannedActivity, "id" | "sessionId">
+  planned: Omit<PlannedActivity, "id" | "completedAt">
 ): Promise<PlannedActivity> {
   const { data, error } = await supabase
     .from("planned_activities")
@@ -131,7 +142,7 @@ export async function addPlannedActivity(
 }
 
 export async function addPlannedActivities(
-  items: Omit<PlannedActivity, "id" | "sessionId">[]
+  items: Omit<PlannedActivity, "id" | "completedAt">[]
 ): Promise<PlannedActivity[]> {
   const { data, error } = await supabase
     .from("planned_activities")
@@ -158,22 +169,21 @@ export async function deletePlannedActivity(id: string): Promise<void> {
   if (error) throw error;
 }
 
-export async function linkPlannedActivitySession(
-  id: string,
-  sessionId: string
-): Promise<void> {
+export async function markPlannedActivityDone(id: string): Promise<string> {
+  const completedAt = new Date().toISOString();
   const { error } = await supabase
     .from("planned_activities")
-    .update({ session_id: sessionId })
+    .update({ completed_at: completedAt })
     .eq("id", id);
 
   if (error) throw error;
+  return completedAt;
 }
 
-export async function unlinkPlannedActivitySession(id: string): Promise<void> {
+export async function markPlannedActivityNotDone(id: string): Promise<void> {
   const { error } = await supabase
     .from("planned_activities")
-    .update({ session_id: null })
+    .update({ completed_at: null })
     .eq("id", id);
 
   if (error) throw error;

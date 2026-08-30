@@ -14,5 +14,5 @@ export interface PlannedActivity {
   customLabel?: string;
   dayDate: string; // YYYY-MM-DD
   position: number;
-  sessionId?: string;
+  completedAt?: string;
 }

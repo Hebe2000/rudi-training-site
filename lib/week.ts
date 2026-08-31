@@ -34,9 +34,13 @@ export function dayOfMonth(iso: string): number {
   return new Date(iso + "T00:00:00").getDate();
 }
 
-export function weekdayLabel(iso: string): string {
+export function weekdayIndex(iso: string): number {
   const jsDay = new Date(iso + "T00:00:00").getDay();
-  return WEEKDAY_LABELS[(jsDay + 6) % 7];
+  return (jsDay + 6) % 7;
+}
+
+export function weekdayLabel(iso: string): string {
+  return WEEKDAY_LABELS[weekdayIndex(iso)];
 }
 
 export interface MonthKey {

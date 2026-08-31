@@ -1,92 +1,21 @@
 import { supabase } from "./supabase";
-import { PlannedActivity, TrainingSession } from "./types";
-
-interface SessionRow {
-  id: string;
-  activity_id: string | null;
-  custom_label: string | null;
-  session_date: string;
-  duration_minutes: number;
-  rating: 1 | 2 | 3 | 4 | 5;
-  notes: string | null;
-}
-
-function fromRow(row: SessionRow): TrainingSession {
-  return {
-    id: row.id,
-    activityId: row.activity_id ?? undefined,
-    customLabel: row.custom_label ?? undefined,
-    date: row.session_date,
-    durationMinutes: row.duration_minutes,
-    rating: row.rating,
-    notes: row.notes ?? undefined,
-  };
-}
-
-export async function loadSessions(): Promise<TrainingSession[]> {
-  const { data, error } = await supabase
-    .from("training_sessions")
-    .select("*")
-    .order("session_date", { ascending: false });
-
-  if (error) throw error;
-  return (data as SessionRow[]).map(fromRow);
-}
+import { PlannedActivity } from "./types";
 
 export async function loadRecentlyDoneActivityIds(
   sinceDate: string
 ): Promise<string[]> {
-  const [sessions, planned] = await Promise.all([
-    supabase
-      .from("training_sessions")
-      .select("activity_id")
-      .gte("session_date", sinceDate)
-      .not("activity_id", "is", null),
-    supabase
-      .from("planned_activities")
-      .select("activity_id")
-      .gte("day_date", sinceDate)
-      .not("activity_id", "is", null)
-      .not("completed_at", "is", null),
-  ]);
-
-  if (sessions.error) throw sessions.error;
-  if (planned.error) throw planned.error;
-
-  const ids = [
-    ...(sessions.data as { activity_id: string | null }[]),
-    ...(planned.data as { activity_id: string | null }[]),
-  ].map((r) => r.activity_id as string);
-  return Array.from(new Set(ids));
-}
-
-export async function insertSession(
-  session: Omit<TrainingSession, "id">
-): Promise<TrainingSession> {
   const { data, error } = await supabase
-    .from("training_sessions")
-    .insert({
-      activity_id: session.activityId ?? null,
-      custom_label: session.customLabel ?? null,
-      session_date: session.date,
-      duration_minutes: session.durationMinutes,
-      rating: session.rating,
-      notes: session.notes ?? null,
-    })
-    .select()
-    .single();
+    .from("planned_activities")
+    .select("activity_id")
+    .gte("day_date", sinceDate)
+    .not("activity_id", "is", null)
+    .not("completed_at", "is", null);
 
   if (error) throw error;
-  return fromRow(data as SessionRow);
-}
-
-export async function deleteSession(id: string): Promise<void> {
-  const { error } = await supabase
-    .from("training_sessions")
-    .delete()
-    .eq("id", id);
-
-  if (error) throw error;
+  const ids = (data as { activity_id: string | null }[]).map(
+    (r) => r.activity_id as string
+  );
+  return Array.from(new Set(ids));
 }
 
 interface PlannedActivityRow {

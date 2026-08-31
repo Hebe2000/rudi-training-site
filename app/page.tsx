@@ -225,10 +225,10 @@ export default function Home() {
             </div>
             <div className="flex shrink-0 gap-2">
               <Link
-                href="/history"
+                href="/insights"
                 className="rounded-full border border-mist px-3.5 py-1.5 text-sm font-medium text-ink-muted hover:border-clay hover:text-clay"
               >
-                History
+                Insights
               </Link>
               <Link
                 href="/activities"

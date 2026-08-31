@@ -77,14 +77,7 @@ export default function MobileActivityDrawer({
   return (
     <div className="fixed inset-0 z-50 flex">
       <div
-        className={`absolute inset-0 bg-ink/40 transition-opacity ${
-          mounted ? "opacity-100" : "opacity-0"
-        }`}
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      <div
-        className={`relative flex h-full w-[85vw] max-w-sm flex-col bg-canvas shadow-xl transition-transform duration-200 ${
+        className={`flex h-full w-full flex-col bg-canvas transition-transform duration-200 ${
           mounted ? "translate-x-0" : "-translate-x-full"
         }`}
       >

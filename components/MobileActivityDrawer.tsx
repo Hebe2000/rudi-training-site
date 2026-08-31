@@ -2,15 +2,15 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { CATEGORIES, filterActivityGroups } from "@/lib/activities";
-import { WEEKDAY_LABELS, dayOfMonth, todayISO } from "@/lib/week";
+import { formatDayHeading, todayISO } from "@/lib/week";
 
 export default function MobileActivityDrawer({
-  weekDates,
+  dates,
   recentlyDoneIds,
   onClose,
   onBulkAdd,
 }: {
-  weekDates: string[];
+  dates: string[];
   recentlyDoneIds: Set<string>;
   onClose: () => void;
   onBulkAdd: (activityIds: string[], dayDate: string) => Promise<void>;
@@ -21,7 +21,7 @@ export default function MobileActivityDrawer({
   const [hideRecentlyDone, setHideRecentlyDone] = useState(false);
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [targetDay, setTargetDay] = useState<string>(
-    weekDates.includes(todayISO()) ? todayISO() : weekDates[0]
+    dates.includes(todayISO()) ? todayISO() : dates[0]
   );
   const [submitting, setSubmitting] = useState(false);
 
@@ -58,9 +58,8 @@ export default function MobileActivityDrawer({
   }
 
   const dayButtonLabel =
-    targetDay === todayISO()
-      ? "today"
-      : WEEKDAY_LABELS[weekDates.indexOf(targetDay)];
+    targetDay === todayISO() ? "today" : formatDayHeading(targetDay);
+  const isTodayInRange = dates.includes(todayISO());
 
   async function handleAdd() {
     if (selected.size === 0) return;
@@ -177,9 +176,7 @@ export default function MobileActivityDrawer({
 
         <div className="flex shrink-0 flex-col gap-3 border-t border-mist bg-canvas-card p-4">
           <div className="flex items-center justify-between text-sm">
-            <span className="text-ink-muted">
-              {selected.size} selected
-            </span>
+            <span className="text-ink-muted">{selected.size} selected</span>
             {selected.size > 0 && (
               <button
                 onClick={() => setSelected(new Set())}
@@ -189,29 +186,23 @@ export default function MobileActivityDrawer({
               </button>
             )}
           </div>
-          <div className="scroll-thin flex gap-1.5 overflow-x-auto pb-1">
-            {weekDates.map((date, i) => {
-              const isToday = date === todayISO();
-              const isTarget = date === targetDay;
-              return (
-                <button
-                  key={date}
-                  onClick={() => setTargetDay(date)}
-                  className={`flex h-12 w-10 shrink-0 flex-col items-center justify-center rounded-lg border text-xs ${
-                    isTarget
-                      ? "border-clay bg-clay text-white"
-                      : isToday
-                        ? "border-clay/50 text-clay"
-                        : "border-mist text-ink-muted"
-                  }`}
-                >
-                  <span className="font-medium">{WEEKDAY_LABELS[i]}</span>
-                  <span className="text-[10px] opacity-80">
-                    {dayOfMonth(date)}
-                  </span>
-                </button>
-              );
-            })}
+          <div className="flex items-center gap-2">
+            <input
+              type="date"
+              value={targetDay}
+              min={dates[0]}
+              max={dates[dates.length - 1]}
+              onChange={(e) => setTargetDay(e.target.value)}
+              className="flex-1 rounded-lg border border-mist bg-canvas-card px-2.5 py-1.5 text-sm text-ink focus:border-clay focus:outline-none focus:ring-1 focus:ring-clay"
+            />
+            {isTodayInRange && targetDay !== todayISO() && (
+              <button
+                onClick={() => setTargetDay(todayISO())}
+                className="shrink-0 rounded-lg border border-mist px-3 py-1.5 text-sm text-ink-muted hover:border-clay hover:text-clay"
+              >
+                Today
+              </button>
+            )}
           </div>
           <button
             onClick={handleAdd}

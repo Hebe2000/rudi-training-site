@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useDroppable } from "@dnd-kit/core";
 import { getActivity } from "@/lib/activities";
 import { PlannedActivity } from "@/lib/types";
-import { WEEKDAY_LABELS, formatDayHeading, todayISO } from "@/lib/week";
+import { formatDayHeading, todayISO, weekdayLabel } from "@/lib/week";
 
 export const dayDropId = (date: string) => `day:${date}`;
 
@@ -80,7 +80,6 @@ function PlannedCard({
 
 function DayColumn({
   date,
-  label,
   planned,
   onToggleDone,
   onRemove,
@@ -88,7 +87,6 @@ function DayColumn({
   todayRef,
 }: {
   date: string;
-  label: string;
   planned: PlannedActivity[];
   onToggleDone: (p: PlannedActivity) => void;
   onRemove: (p: PlannedActivity) => void;
@@ -118,7 +116,7 @@ function DayColumn({
             isToday ? "text-clay" : "text-mid"
           }`}
         >
-          {label}
+          {weekdayLabel(date)}
         </div>
         <div className="text-xs text-mid">{formatDayHeading(date)}</div>
       </div>
@@ -138,13 +136,13 @@ function DayColumn({
 }
 
 export default function WeekCalendar({
-  weekDates,
+  dates,
   plannedByDay,
   onToggleDone,
   onRemove,
   onSelect,
 }: {
-  weekDates: string[];
+  dates: string[];
   plannedByDay: Record<string, PlannedActivity[]>;
   onToggleDone: (p: PlannedActivity) => void;
   onRemove: (p: PlannedActivity) => void;
@@ -155,8 +153,13 @@ export default function WeekCalendar({
 
   useEffect(() => {
     const container = containerRef.current;
+    if (!container) return;
     const today = todayRef.current;
-    if (!container || !today) return;
+    if (!today) {
+      // Viewing a month without "today" in it — start from day 1.
+      container.scrollLeft = 0;
+      return;
+    }
     // Native scrollIntoView clamps to the max scroll position, which can't
     // left-align a column near the end of the row (not enough trailing
     // content to fill the rest of the viewport) — the trailing spacer
@@ -166,18 +169,17 @@ export default function WeekCalendar({
       container.getBoundingClientRect().left +
       container.scrollLeft;
     container.scrollLeft = offset;
-  }, []);
+  }, [dates]);
 
   return (
     <div
       ref={containerRef}
       className="scroll-thin flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2"
     >
-      {weekDates.map((date, i) => (
+      {dates.map((date) => (
         <DayColumn
           key={date}
           date={date}
-          label={WEEKDAY_LABELS[i]}
           planned={plannedByDay[date] ?? []}
           onToggleDone={onToggleDone}
           onRemove={onRemove}

@@ -8,15 +8,6 @@ export const WEEKDAY_LABELS = [
   "Sun",
 ] as const;
 
-export function startOfWeek(from: Date = new Date()): Date {
-  const d = new Date(from);
-  const day = d.getDay();
-  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(d.setDate(diff));
-  monday.setHours(0, 0, 0, 0);
-  return monday;
-}
-
 export function toLocalISODate(d: Date): string {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -34,15 +25,6 @@ export function daysAgoISO(days: number): string {
   return toLocalISODate(d);
 }
 
-export function currentWeekDates(): string[] {
-  const monday = startOfWeek();
-  return Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(monday);
-    d.setDate(monday.getDate() + i);
-    return toLocalISODate(d);
-  });
-}
-
 export function formatDayHeading(iso: string): string {
   const d = new Date(iso + "T00:00:00");
   return d.toLocaleDateString(undefined, { month: "short", day: "numeric" });
@@ -50,4 +32,46 @@ export function formatDayHeading(iso: string): string {
 
 export function dayOfMonth(iso: string): number {
   return new Date(iso + "T00:00:00").getDate();
+}
+
+export function weekdayLabel(iso: string): string {
+  const jsDay = new Date(iso + "T00:00:00").getDay();
+  return WEEKDAY_LABELS[(jsDay + 6) % 7];
+}
+
+export interface MonthKey {
+  year: number;
+  month: number; // 1-12
+}
+
+export function currentMonthKey(): MonthKey {
+  const now = new Date();
+  return { year: now.getFullYear(), month: now.getMonth() + 1 };
+}
+
+export function monthDates({ year, month }: MonthKey): string[] {
+  const daysInMonth = new Date(year, month, 0).getDate();
+  return Array.from({ length: daysInMonth }, (_, i) => {
+    const day = String(i + 1).padStart(2, "0");
+    return `${year}-${String(month).padStart(2, "0")}-${day}`;
+  });
+}
+
+export function monthLabel({ year, month }: MonthKey): string {
+  return new Date(year, month - 1, 1).toLocaleDateString(undefined, {
+    month: "long",
+    year: "numeric",
+  });
+}
+
+export function monthKeyEquals(a: MonthKey, b: MonthKey): boolean {
+  return a.year === b.year && a.month === b.month;
+}
+
+export function recentMonths(count: number): MonthKey[] {
+  const { year, month } = currentMonthKey();
+  return Array.from({ length: count }, (_, i) => {
+    const total = year * 12 + (month - 1) - i;
+    return { year: Math.floor(total / 12), month: (total % 12) + 1 };
+  });
 }

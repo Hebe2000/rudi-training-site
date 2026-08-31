@@ -110,13 +110,13 @@ function plannedFromRow(row: PlannedActivityRow): PlannedActivity {
 }
 
 export async function loadPlannedActivities(
-  weekDates: string[]
+  dates: string[]
 ): Promise<PlannedActivity[]> {
   const { data, error } = await supabase
     .from("planned_activities")
     .select("*")
-    .gte("day_date", weekDates[0])
-    .lte("day_date", weekDates[weekDates.length - 1])
+    .gte("day_date", dates[0])
+    .lte("day_date", dates[dates.length - 1])
     .order("position", { ascending: true });
 
   if (error) throw error;

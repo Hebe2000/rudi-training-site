@@ -27,13 +27,33 @@ import {
   markPlannedActivityNotDone,
 } from "@/lib/storage";
 import { PlannedActivity } from "@/lib/types";
-import { currentWeekDates, daysAgoISO } from "@/lib/week";
+import {
+  MonthKey,
+  currentMonthKey,
+  daysAgoISO,
+  monthDates,
+  monthKeyEquals,
+  monthLabel,
+  recentMonths,
+} from "@/lib/week";
 import { useIsMobile } from "@/lib/useIsMobile";
 
 const RECENT_WINDOW_DAYS = 6;
+const MONTH_OPTIONS_COUNT = 12;
+
+function monthKeyValue({ year, month }: MonthKey): string {
+  return `${year}-${month}`;
+}
 
 export default function Home() {
-  const weekDates = useMemo(() => currentWeekDates(), []);
+  const [selectedMonth, setSelectedMonth] = useState<MonthKey>(
+    currentMonthKey
+  );
+  const dates = useMemo(() => monthDates(selectedMonth), [selectedMonth]);
+  const monthOptions = useMemo(
+    () => recentMonths(MONTH_OPTIONS_COUNT),
+    []
+  );
   const [planned, setPlanned] = useState<PlannedActivity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -57,11 +77,11 @@ export default function Home() {
   );
 
   useEffect(() => {
-    loadPlannedActivities(weekDates)
+    loadPlannedActivities(dates)
       .then(setPlanned)
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
-  }, [weekDates]);
+  }, [dates]);
 
   useEffect(() => {
     loadRecentlyDoneActivityIds(daysAgoISO(RECENT_WINDOW_DAYS))
@@ -225,13 +245,34 @@ export default function Home() {
             </div>
           )}
 
+          <div>
+            <select
+              value={monthKeyValue(selectedMonth)}
+              onChange={(e) => {
+                const found = monthOptions.find(
+                  (m) => monthKeyValue(m) === e.target.value
+                );
+                if (found) setSelectedMonth(found);
+              }}
+              className="rounded-full border border-mist bg-canvas-card px-3.5 py-1.5 text-sm font-medium text-ink-muted focus:border-clay focus:outline-none focus:ring-1 focus:ring-clay"
+            >
+              {monthOptions.map((m) => (
+                <option key={monthKeyValue(m)} value={monthKeyValue(m)}>
+                  {monthKeyEquals(m, currentMonthKey())
+                    ? `${monthLabel(m)} (current)`
+                    : monthLabel(m)}
+                </option>
+              ))}
+            </select>
+          </div>
+
           {loading ? (
             <p className="text-center font-serif text-sm text-ink-muted">
               Loading…
             </p>
           ) : isMobile ? (
             <WeekCalendar
-              weekDates={weekDates}
+              dates={dates}
               plannedByDay={plannedByDay}
               onToggleDone={handleToggleDone}
               onRemove={handleRemove}
@@ -247,7 +288,7 @@ export default function Home() {
               </div>
               <div className="min-w-0 flex-1">
                 <WeekCalendar
-                  weekDates={weekDates}
+                  dates={dates}
                   plannedByDay={plannedByDay}
                   onToggleDone={handleToggleDone}
                   onRemove={handleRemove}
@@ -271,7 +312,7 @@ export default function Home() {
 
       {drawerOpen && (
         <MobileActivityDrawer
-          weekDates={weekDates}
+          dates={dates}
           recentlyDoneIds={recentlyDoneIds}
           onClose={() => setDrawerOpen(false)}
           onBulkAdd={handleBulkAdd}

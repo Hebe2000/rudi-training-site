@@ -74,8 +74,10 @@ export function monthKeyEquals(a: MonthKey, b: MonthKey): boolean {
 
 export function recentMonths(count: number): MonthKey[] {
   const { year, month } = currentMonthKey();
+  // Oldest first, current month last — reads as a normal timeline instead
+  // of jumping backward and wrapping across a year boundary.
   return Array.from({ length: count }, (_, i) => {
-    const total = year * 12 + (month - 1) - i;
+    const total = year * 12 + (month - 1) - (count - 1 - i);
     return { year: Math.floor(total / 12), month: (total % 12) + 1 };
   });
 }

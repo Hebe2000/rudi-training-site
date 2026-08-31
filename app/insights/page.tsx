@@ -158,6 +158,9 @@ export default function InsightsPage() {
             <section className="flex flex-col gap-3 rounded-2xl border border-mist bg-canvas-card p-5 shadow-sm">
               <h2 className="font-sans text-lg font-semibold text-ink">
                 Activity by day
+                <span className="ml-2 font-serif text-sm font-normal text-ink-muted">
+                  {monthLabel(selectedMonth)}
+                </span>
               </h2>
               <CompletionHeatmap month={selectedMonth} countsByDate={countsByDate} />
             </section>
